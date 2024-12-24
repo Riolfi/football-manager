@@ -7,25 +7,23 @@ const getLeagues = async (req, res) => {
             headers: { 'x-apisports-key': process.env.API_KEY },
         });
 
-        // Lista de países que possuem as ligas principais
-        const principaisPaises = [
-            'England',
-            'Spain',
-            'Italy',
-            'Germany',
-            'France',
-            'Brazil',
-            'Portugal',
-            'Argentina',
-            'Netherlands',
-            'USA'
-        ];
+        // Lista de países com as ligas desejadas
+        const ligasDesejadas = {
+            'Brazil': 'Serie A',
+            'France': 'Ligue 1',
+            'England': 'Premier League',
+            'Germany': 'Bundesliga',
+            'Italy': 'Serie A',
+            'Spain': 'La Liga',
+            'Portugal': 'Primeira Liga',
+            'Argentina': 'Primera Division'
+        };
 
-        // Filtrar ligas apenas da primeira divisão dos países principais
-        const ligasFiltradas = response.data.response.filter(league => 
-            league.league.type === 'League' && // Somente ligas (não copas)
-            league.country.name && principaisPaises.includes(league.country.name) &&
-            league.seasons.some(season => season.year === 2023) // Temporada 2023
+        // Filtrar apenas as ligas específicas para os países definidos
+        const ligasFiltradas = response.data.response.filter(league =>
+            league.league.type === 'League' && // Apenas ligas regulares
+            ligasDesejadas[league.country.name] && // O país está na lista
+            league.league.name === ligasDesejadas[league.country.name] // O nome da liga corresponde
         ).map(league => ({
             id: league.league.id,
             nome: league.league.name,
@@ -33,13 +31,11 @@ const getLeagues = async (req, res) => {
             logo: league.league.logo,
         }));
 
+        // Retornar as ligas filtradas
         res.json(ligasFiltradas);
-        
     } catch (error) {
-        res.status(500).json({
-            message: "Erro ao buscar as ligas.",
-            error: error.response?.data || error.message,
-        });
+        console.error("Erro ao buscar ligas:", error.message);
+        res.status(500).json({ message: "Erro ao buscar ligas." });
     }
 };
 

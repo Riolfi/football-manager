@@ -8,7 +8,6 @@ function App() {
 
     return (
         <div>
-            {/* <h1>Football Manager</h1> */}
             {!selectedLeague ? (
                 <LeagueSelector onLeagueSelect={setSelectedLeague} />
             ) : !selectedTeam ? (
