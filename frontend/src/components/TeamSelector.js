@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 
-function TeamSelector({ leagueId, onTeamSelect }) {
+function TeamSelector({ leagueId, onTeamSelect, onBack }) {
     const [teams, setTeams] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -25,11 +25,19 @@ function TeamSelector({ leagueId, onTeamSelect }) {
     return (
         <div
             className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
-            style={{ backgroundImage: "url('/background.jpg')" }} // Substitua pela imagem do plano de fundo
+            style={{ backgroundImage: "url('/background.jpg')" }}
         >
             <h2 className="text-4xl font-bold mb-6 text-white drop-shadow-md">
                 Escolha um Clube
             </h2>
+
+            <button
+                onClick={onBack}
+                className="absolute top-5 left-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Voltar
+            </button>
+
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {teams.map((team) => (
                     <li

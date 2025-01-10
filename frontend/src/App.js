@@ -11,7 +11,11 @@ function App() {
             {!selectedLeague ? (
                 <LeagueSelector onLeagueSelect={setSelectedLeague} />
             ) : !selectedTeam ? (
-                <TeamSelector leagueId={selectedLeague} onTeamSelect={setSelectedTeam} />
+                <TeamSelector 
+                    leagueId={selectedLeague} 
+                    onTeamSelect={setSelectedTeam} 
+                    onBack={() => setSelectedLeague(null)}
+                />
             ) : (
                 <div>
                     <h2>Clube Selecionado!</h2>
