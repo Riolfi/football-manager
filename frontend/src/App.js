@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LeagueSelector from './components/LeagueSelector';
 import TeamSelector from './components/TeamSelector';
+import ClubDashboard from './components/ClubDashboard';
 
 function App() {
     const [selectedLeague, setSelectedLeague] = useState(null);
@@ -17,10 +18,10 @@ function App() {
                     onBack={() => setSelectedLeague(null)}
                 />
             ) : (
-                <div>
-                    <h2>Clube Selecionado!</h2>
-                    <p>ID do Clube: {selectedTeam}</p>
-                </div>
+                <ClubDashboard
+                    teamId={selectedTeam}
+                    onBack={() => setSelectedTeam(null)}
+                />
             )}
         </div>
     );
