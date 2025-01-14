@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
+import PlayerList from './PlayerList';
 
 function ClubDashboard({ teamId, onBack }) {
     const [teamInfo, setTeamInfo] = useState(null);
@@ -30,18 +31,23 @@ function ClubDashboard({ teamId, onBack }) {
             className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
             style={{ backgroundImage: "url('/background.jpg')" }}
         >
-            <button
+            {/* <button
                 onClick={onBack}
                 className="absolute top-5 left-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             >
                 Voltar
-            </button>
+            </button> */}
 
             <div className="text-center mb-6">
                 <img src={teamInfo.logo} alt={teamInfo.nome} className="w-32 h-32 mx-auto mb-4" />
                 <h1 className="text-4xl font-bold text-white">{teamInfo.nome}</h1>
                 <p className="text-white text-lg mt-2">{`Estádio: ${teamInfo.estadio} (${teamInfo.cidade})`}</p>
                 <p className="text-white text-lg">{`Capacidade: ${teamInfo.capacidade} espectadores`}</p>
+            </div>
+
+            <div className="w-full max-w-4xl">
+                <h2 className="text-2xl font-bold text-white mb-4">Jogadores</h2>
+                <PlayerList teamId={teamId} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl p-4">

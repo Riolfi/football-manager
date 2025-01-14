@@ -58,4 +58,32 @@ router.get('/info/:id', async (req, res) => {
     }
 });
 
+router.get('/players/:id', async (req, res) => {
+    const teamId = req.params.id;
+    const season = 2022;
+
+    try {
+        const response = await axios.get(
+            `https://v3.football.api-sports.io/players?team=${teamId}&season=${season}`,
+            {
+                headers: { 'x-apisports-key': process.env.API_KEY },
+            }
+        );
+        
+        const jogadores = response.data.response.map((player) => ({
+            id: player.player.id,
+            nome: player.player.name,
+            idade: player.player.age,
+            posicao: player.player.position,
+            nacionalidade: player.player.nationality,
+            foto: player.player.photo
+        }));
+
+        res.json(jogadores);
+    } catch {
+        console.error("Erro ao buscar jogadores:", error.message);
+        res.status(500).json({ message: "Erro ao buscar jogadores." });
+    }
+})
+
 module.exports = router;
