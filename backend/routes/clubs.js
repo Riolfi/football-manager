@@ -69,7 +69,7 @@ router.get('/players/:id', async (req, res) => {
                 headers: { 'x-apisports-key': process.env.API_KEY },
             }
         );
-        
+        debugger;
         const jogadores = response.data.response.map((player) => ({
             id: player.player.id,
             nome: player.player.name,

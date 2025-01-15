@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import PlayerList from './PlayerList';
+import TacticalBoard from './TacticalBoard';
 
 function ClubDashboard({ teamId, onBack }) {
+    const [players, setPlayers] = useState([]);
     const [teamInfo, setTeamInfo] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -10,16 +11,25 @@ function ClubDashboard({ teamId, onBack }) {
         async function fetchTeamInfo() {
             try {
                 const response = await api.get(`/clubs/info/${teamId}`);
-                console.log("Informações do time recebidas:", response.data);
                 setTeamInfo(response.data);
             } catch (error) {
                 console.error("Erro ao buscar informações do time:", error);
+            }
+        }
+
+        async function fetchPlayers() {
+            try {
+                const response = await api.get(`/clubs/players/${teamId}`);
+                setPlayers(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar jogadores:", error);
             } finally {
                 setLoading(false);
             }
         }
 
         fetchTeamInfo();
+        fetchPlayers();
     }, [teamId]);
 
     if (loading) return <p className="text-white text-xl text-center mt-20">Carregando informações do time...</p>;
@@ -47,7 +57,7 @@ function ClubDashboard({ teamId, onBack }) {
 
             <div className="w-full max-w-4xl">
                 <h2 className="text-2xl font-bold text-white mb-4">Jogadores</h2>
-                <PlayerList teamId={teamId} />
+                <TacticalBoard players={players} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl p-4">
